@@ -1,26 +1,27 @@
-# Blockers — Phase 4
-Ngày 29/10/2026.
+# Blockers — Phase 5
 
-## Đang chặn
-**B0 — Bảo toàn binary MapleRoyals không đạt.** Defender đã cách ly MapleRoyals.exe và mr.dll ở original/backup/working trong lúc đọc hash. 6 file hiện không còn ở vị trí cũ. Không kết luận false positive, không tự restore/exclusion. WZ/IMG không có thay đổi hash mới. Đây là sự cố phải được ghi nhận riêng, không được gọi toàn bộ môi trường là đã bảo toàn. Xem [audit](NX_ASSET_AUDIT.md).
+**29/10/2026, Asia/Saigon.** Chưa có baseline gameplay.
 
-**B1 — Bộ NX v83 được phép dùng: 0/16.** Thiếu Base, Character, Effect, Etc, Item, Map, Mob, Morph, Npc, Quest, Reactor, Skill, Sound, String, TamingMob, UI (đuôi .nx). Cần nguồn và bằng chứng quyền xử lý/sử dụng, kèm hash. Nếu cung cấp WZ/IMG phù hợp thay NX, có thể chạy converter trên bản copy sau review. Không mặc định MapleRoyals là nguồn hợp lệ. [Chi tiết](NX_ASSET_AUDIT.md).
+## B1 — Thiếu tài nguyên: đang chặn
 
-**B2 — UI/node/version compatibility.** Profile validator mới bao phủ một phần các đường dẫn source-derived; dynamic paths, một số node MapLatest/MapPretty và semantic fields cần kiểm trên dữ liệu thật. 16 tên file/PKG4 hợp lệ chưa đủ.
+**0/16 NX**; người dùng xác nhận chưa có bộ riêng. Workspace chỉ có MapleRoyals chưa xác minh quyền/tương thích và fixture. Không convert MapleRoyals hoặc tải WZ/NX từ mirror chưa rõ quyền. Cần NX v83 hoặc WZ/IMG tương ứng kèm nguồn và quyền dùng/chuyển đổi. [Đầu vào](ASSET_INTAKE.md).
 
-**B3 — Login/PIN/PIC và gameplay.** Chưa có login UI nên chưa thử authentication, character, map/combat/save. Cần xử lý protocol hợp lệ khi có bằng chứng lỗi, giữ PIN/PIC.
+Compiler/converter/server/database mới không giải quyết thiếu hình ảnh/UI/âm thanh. XML Cosmic không thay thế bộ client NX.
 
-**B4 — Phạm vi converter/validator.** Đã kiểm primitive/vector/UOL/RGBA8888/animation metadata/PCM trên fixture; chưa thử mọi codec, layout/locale WZ hoặc asset thương mại. Validator có safety limits và full_dynamic_reference_coverage=false, không phải audit parser hoàn chỉnh.
+## B2 — Tương thích dữ liệu: chưa thử
 
-## Đã xử lý
-Converter build trên MSVC hiện có; Unicode path/exit code/bounds/bitmap lỗi; runner giữ input và không overwrite. LNK4098/LNK4099 được xử lý bằng GLEW source build cùng CRT. Cosmic/MySQL đã resume từ dữ liệu cũ sau khi phát hiện process dừng, không initialize/reset.
+Profile validator chỉ bao phủ một phần paths; dynamic references, UI, codec/layout và fields map/portal/skill cần thử trên bộ thật. Chưa đối chiếu asset thật với Cosmic. Đúng tên .nx/PKG4 không chứng minh game chạy.
 
-Lượt build trước từng bị chặn bởi bộ duyệt tự động chạm hạn mức. Lần tiếp tục đã được duyệt và build/test thực thi thành công; đây không còn là blocker hiện tại. Không dùng cách bỏ qua bước duyệt.
+## B3 — Authentication/gameplay: chưa có bằng chứng
 
-## Tiếp theo
-1. Có bộ asset v83 đủ quyền và manifest được review.
-2. Convert trên bản copy → preflight → so sánh IDs/fields/node → runtime riêng.
-3. Login/UI/PIN/PIC → nhân vật → map → combat/EXP/loot → logout/reload với bằng chứng thật.
-4. Chỉ sau đó bắt đầu Kiếm Tu trong Maple World cổ điển.
+Chưa login UI; PIN/PIC/world/channel/nhân vật/map/combat/EXP/loot/save-reload chưa chạy. PIN/PIC vẫn bật. Luồng PIN phía client cần kiểm chứng khi có UI; chưa gọi là lỗi đã tái hiện và không tắt xác thực.
 
-Các điều kiện kỹ thuật Minimum Success của pipeline/OpenStory/Cosmic đạt. **Toàn nhiệm vụ chưa hoàn tất**, vì thiếu NX game và có sự cố bảo toàn binary MapleRoyals. Target/Ideal Success chưa đạt. [Báo cáo mới nhất](LATEST.md).
+## Sự cố riêng
+
+**MapleRoyals full integrity FAIL** do Defender cách ly 6 binary ở Phase 4. Không restore/exclusion. Không cần khôi phục MapleRoyals hoặc tắt bảo vệ để dùng OpenStory. [Báo cáo bảo mật](SECURITY_INCIDENT.md).
+
+## Đã có và bước tiếp theo
+
+Backend hiện chạy localhost; health Phase 5 PASS, 75 bảng/37 changeset/lock=0, JAR/client hash không đổi. Không restart/reset ở Phase 5. Tests Phase 4 là bằng chứng lịch sử có phạm vi; không chạy lại khi chưa có thay đổi cần kiểm.
+
+Đầu vào hợp lệ → review quyền/hash → staging/conversion → preflight/NoLifeNx/đối chiếu XML → runtime riêng → gameplay/persistence thật → mới làm Kiếm Tu. [Latest](LATEST.md).
