@@ -1,54 +1,35 @@
-# VẤN KIẾM — Báo cáo tiến độ mới nhất
+# VẤN KIẾM — Dự án đã dừng
 
-**29/10/2026 — Phase 5: Real Asset Integration & First Playable.**
+**29/10/2026, Asia/Saigon.** Người dùng yêu cầu dừng dự án và xóa toàn bộ file liên quan trên máy; xác nhận **giữ repository GitHub**.
 
-**Chưa chơi được game.** OpenStory/Cosmic và pipeline đã có, nhưng vẫn **0/16 NX game thực tế**. Người dùng xác nhận chưa bổ sung bộ tài nguyên riêng. Không convert MapleRoyals, không tải asset thương mại chưa rõ quyền và không triển khai Kiếm Tu.
+## Đã thực hiện
 
-## Đã thực hiện trong Phase 5
+- Dừng Cosmic và MySQL bằng công cụ shutdown của môi trường; không tiếp tục phát triển hoặc chạy thử gameplay.
+- Gỡ đúng instance Microsoft Visual Studio Build Tools 2022 được cài riêng dưới thư mục dự án. Trình gỡ Microsoft có chữ ký hợp lệ trả **exit code 0**; kiểm tra vswhere sau đó không còn instance.
+- Xóa toàn bộ nội dung **D:\Project\Vấn Kiếm**, gồm source Phaser/Cosmic/OpenStory, client, MapleRoyals original/backup/working, database, secrets, cache, dependency, công cụ và báo cáo cục bộ.
+- Kiểm tra đường dẫn tuyệt đối trước khi xóa; duyệt metadata không đi theo reparse point, bỏ liên kết trước thao tác recursive để tránh đi ra ngoài thư mục được chỉ định.
+- Gỡ alias V: của riêng dự án. Không xóa repository GitHub hoặc upload dữ liệu dự án.
 
-- Đọc yêu cầu, các báo cáo Phase 4 và tài liệu vận hành. Dùng lại converter/validator; không rebuild hoặc chạy lại toàn bộ suite đã PASS.
-- Kiểm kê metadata workspace bằng công cụ Phase 4: chỉ thấy MapleRoyals/quyền chưa xác minh và fixture tự tạo, không thấy bộ game v83 riêng. Kiểm kê không tự chứng minh quyền hoặc tương thích.
-- Preflight source/wz: **present=0, structurally_valid=0, qualified_game_assets=0 trên 16 yêu cầu**. Đây là trạng thái bị chặn vì thiếu file, không phải test thành công.
-- Host/backend đang chạy: Defender real-time bật, 5 listener đúng 127.0.0.1, handshake protocol 83; **75 bảng, 37 changeset, lock=0**, health PASS.
-- Cosmic.jar/OpenStory.exe khớp hash Phase 4. Không restart/reinstall/reset server/MySQL, không tạo/xóa tài khoản/nhân vật hoặc sửa authentication.
-- Tách [báo cáo Defender](SECURITY_INCIDENT.md) và [hướng dẫn cung cấp asset](ASSET_INTAKE.md). Kiểm tra WZ/IMG theo manifest: **34.628/34.628 khớp mỗi cây original/backup/working**, tổng 103.884 đối chiếu; working giữ probe cũ đã biết, không có thay đổi mới. Không đọc nội dung EXE/DLL MapleRoyals. [Chi tiết](NX_ASSET_AUDIT.md).
+## Kiểm tra thực tế và phần còn lại
 
-## First Playable
-
-| Mốc | Trạng thái Phase 5 |
+| Kiểm tra sau dọn dẹp | Kết quả |
 | --- | --- |
-| NX game đủ điều kiện | **0/16** |
-| Bộ v83 riêng có nguồn/quyền | Chưa có; người dùng xác nhận |
-| Converter trên dữ liệu game thật | Chưa; chỉ có fixture lịch sử |
-| Login UI | Chưa hiển thị |
-| Login/PIN/PIC/world/channel | Chưa kiểm thử qua game |
-| Tạo nhân vật / vào Maple World | Chưa |
-| Movement/portal/combat/EXP/loot | Chưa |
-| Lưu/mở lại nhân vật đã chơi | Chưa |
-| Ảnh gameplay | Chưa có |
+| Nội dung trong thư mục dự án, kể cả file ẩn | **0 entry** |
+| Cosmic/MySQL và executable chạy từ thư mục/alias dự án | Không còn |
+| Listener 3308, 8484, 7575–7577 | Không còn |
+| Alias V: | Không còn |
+| Instance Build Tools riêng của dự án | Đã gỡ |
+| Thư mục gốc D:\Project\Vấn Kiếm | **Còn rỗng; Windows báo đang được tiến trình sử dụng** |
+| Repository r0bjn10-maker/van-kiem | Giữ theo yêu cầu |
 
-Không mở lại client chỉ để lặp lỗi thiếu Base.nx. Lần chạy thật Phase 4 nhận handshake rồi báo **Missing a game file: Base.nx** trước window/login. Handshake, seed và unit test không chứng minh gameplay.
+Đã thử xóa thư mục gốc lần nữa sau khi tiến trình xóa kết thúc; Windows vẫn báo đang được sử dụng. **File đã xóa hết, nhưng chưa xóa được chính thư mục rỗng.** Việc còn lại là xóa thư mục rỗng sau khi tiến trình giữ khóa giải phóng nó; chưa xác định tiến trình giữ khóa, không tự đóng ứng dụng người dùng.
 
-## Bảo toàn và kết quả lịch sử
+Phạm vi dọn dẹp là dữ liệu dự án trên máy. Không tác động kho cách ly do Windows Defender quản lý hoặc phần mềm/hạ tầng dùng chung. Không tạo lại thư mục reports/ cục bộ sau khi xóa; báo cáo đóng dự án được cập nhật trực tiếp trên GitHub theo quy trình đã được người dùng cho phép.
 
-**MapleRoyals full integrity vẫn FAIL**: Defender cách ly MapleRoyals.exe/mr.dll trong original/backup/working (6 đường dẫn) ở Phase 4. Không restore/exclusion/kết luận false positive. Host Phase 5 lúc **06:44** ghi RealTimeProtectionEnabled=true; agent không đổi bảo vệ. WZ/IMG được báo riêng, không dùng kết quả subset để xóa sự cố binary.
+## Trạng thái phát triển cuối cùng
 
-Kết quả **các nhiệm vụ trước, không chạy lại ở Phase 5**:
+Trước khi dừng, client chưa có bộ NX v83 đủ điều kiện; **chưa xác minh login UI, tạo nhân vật, vào map, đánh quái hoặc lưu/mở lại qua gameplay**. Không triển khai Kiếm Tu hoặc Nhất Tuyến Kiếm Khí.
 
-- Cosmic v1.1.3 build: **1.886/1.886 tests PASS**.
-- Converter/pipeline: **29/29 PASS** trên fixture; chưa kiểm chứng mọi WZ/codec thương mại.
-- OpenStory: **3/3 CTest, 10/10 framing PASS**; LNK4098/LNK4099 đã sửa bằng GLEW source build cùng CRT.
-- OpenStory x64 SHA256: F4762A8EBB1879F94E853E53EECD4A05730F2198D21009816974E928866CAC5E.
-- Cosmic.jar SHA256: 11454982AD649B136AC7973DA07B9D50D102C14A0E0957A53AF6F0964CB6301A.
+Các báo cáo khác là lịch sử, không chứng minh server/database còn đang chạy sau lần dọn dẹp này. [Báo cáo Phase 5 trước khi xóa](https://github.com/r0bjn10-maker/van-kiem/blob/5802c51d9d506a50f2d00dbf9fb84e277d8c4825/reports/LATEST.md) được giữ trong lịch sử Git.
 
-Code/evidence mới giữ cục bộ tại **cosmic-local/openstory/phase5/**. Binary, asset, database, manifest chi tiết, secrets, raw logs và source không thuộc commit báo cáo.
-
-## Tiếp theo
-
-**Cần đầu vào từ người dùng:** thư mục NX hoặc WZ/IMG v83 với nguồn và bằng chứng quyền dùng/chuyển đổi. Agent sẽ băm và tạo manifest sau review; người dùng không cần tự băm. [Cách cung cấp](ASSET_INTAKE.md).
-
-Sau đó: staging/conversion → validator/NoLifeNx → đối chiếu Cosmic → runtime riêng → login/PIN/PIC → nhân vật/map cổ điển/combat → lưu/mở lại. Giữ nguyên map/quái MapleStory, chưa thêm nội dung tu tiên.
-
-**Phase 5 bị chặn ở asset; First Playable chưa đạt.** [Audit](NX_ASSET_AUDIT.md) · [Blockers](BLOCKERS.md) · [Gameplay](GAMEPLAY_BASELINE.md). Tài liệu kỹ thuật Phase 4: [pipeline](NX_PIPELINE.md), [converter QA](NX_CONVERTER_QA.md), [startup QA](OPENSTORY_STARTUP_QA.md), [client/server](CLIENT_SERVER_INTEGRATION.md).
-
-Đường dẫn ổn định: [GitHub](https://github.com/r0bjn10-maker/van-kiem/blob/main/reports/LATEST.md) · [Markdown trực tiếp](https://raw.githubusercontent.com/r0bjn10-maker/van-kiem/main/reports/LATEST.md). Chỉ gọi đồng bộ thành công sau khi đọc lại file và kiểm tra diff commit.
+**Không có công việc phát triển tiếp theo được lên lịch.** Chỉ còn việc xóa thư mục gốc rỗng khi hết khóa. Commit này chỉ cập nhật Markdown trong reports/; không chứa binary, asset, database, secrets hoặc log thô.
